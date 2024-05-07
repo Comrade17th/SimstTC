@@ -44,6 +44,15 @@ public partial class @CameraTarget: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""d96112cd-c1c7-402e-a5d1-e266deb95200"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -123,6 +132,39 @@ public partial class @CameraTarget: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""9e8b83d1-dc3d-4572-b357-e8fd007390ab"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""a90a35e1-7fa7-4651-b729-dcfbd226366a"",
+                    ""path"": ""<Mouse>/scroll/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Desktop"",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""71174cbb-7196-45f7-93e4-8e9c603ba04e"",
+                    ""path"": ""<Mouse>/scroll/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Desktop"",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -161,6 +203,7 @@ public partial class @CameraTarget: IInputActionCollection2, IDisposable
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_Move = m_Camera.FindAction("Move", throwIfNotFound: true);
         m_Camera_Rotate = m_Camera.FindAction("Rotate", throwIfNotFound: true);
+        m_Camera_Zoom = m_Camera.FindAction("Zoom", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -224,12 +267,14 @@ public partial class @CameraTarget: IInputActionCollection2, IDisposable
     private List<ICameraActions> m_CameraActionsCallbackInterfaces = new List<ICameraActions>();
     private readonly InputAction m_Camera_Move;
     private readonly InputAction m_Camera_Rotate;
+    private readonly InputAction m_Camera_Zoom;
     public struct CameraActions
     {
         private @CameraTarget m_Wrapper;
         public CameraActions(@CameraTarget wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Camera_Move;
         public InputAction @Rotate => m_Wrapper.m_Camera_Rotate;
+        public InputAction @Zoom => m_Wrapper.m_Camera_Zoom;
         public InputActionMap Get() { return m_Wrapper.m_Camera; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -245,6 +290,9 @@ public partial class @CameraTarget: IInputActionCollection2, IDisposable
             @Rotate.started += instance.OnRotate;
             @Rotate.performed += instance.OnRotate;
             @Rotate.canceled += instance.OnRotate;
+            @Zoom.started += instance.OnZoom;
+            @Zoom.performed += instance.OnZoom;
+            @Zoom.canceled += instance.OnZoom;
         }
 
         private void UnregisterCallbacks(ICameraActions instance)
@@ -255,6 +303,9 @@ public partial class @CameraTarget: IInputActionCollection2, IDisposable
             @Rotate.started -= instance.OnRotate;
             @Rotate.performed -= instance.OnRotate;
             @Rotate.canceled -= instance.OnRotate;
+            @Zoom.started -= instance.OnZoom;
+            @Zoom.performed -= instance.OnZoom;
+            @Zoom.canceled -= instance.OnZoom;
         }
 
         public void RemoveCallbacks(ICameraActions instance)
@@ -294,5 +345,6 @@ public partial class @CameraTarget: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnRotate(InputAction.CallbackContext context);
+        void OnZoom(InputAction.CallbackContext context);
     }
 }
