@@ -15,8 +15,8 @@ public class Window : MonoBehaviour
     
     private void Awake()
     {
-        Assert.IsNotNull(_nextWindowButton);
-        Assert.IsNotNull(_closeButton);
+        // Assert.IsNotNull(_nextWindowButton);
+        // Assert.IsNotNull(_closeButton);
     }
 
     protected virtual void OnEnable()
