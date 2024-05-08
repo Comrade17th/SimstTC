@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PaymentWindow : Window
 {
-    public void OpenPaymentUrl()
+    private void OpenPaymentUrl()
     {
         Application.OpenURL($"https://online.sberbank.ru/CSAFront/index.do");
     }

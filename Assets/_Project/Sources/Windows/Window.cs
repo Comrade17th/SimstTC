@@ -16,18 +16,22 @@ public class Window : MonoBehaviour
     private void Awake()
     {
         Assert.IsNotNull(_nextWindowButton);
+        Assert.IsNotNull(_closeButton);
     }
 
     protected virtual void OnEnable()
     {
-        if (_nextWindowButton) _nextWindowButton.onClick.AddListener(OnNextWindowButtonClick);
-        if(_closeButton) _closeButton.onClick.AddListener(Close);
+        if (_nextWindowButton != null)
+            _nextWindowButton.onClick.AddListener(OnNextWindowButtonClick);
+        
+        if (_closeButton != null)
+            _closeButton.onClick.AddListener(Close);
     }
 
     protected virtual void OnDisable()
     {
         if (_nextWindowButton) _nextWindowButton.onClick.RemoveListener(OnNextWindowButtonClick);
-        if(_closeButton) _closeButton.onClick.RemoveListener(Close);
+        if (_closeButton) _closeButton.onClick.RemoveListener(Close);
     }
 
     public virtual void Close()

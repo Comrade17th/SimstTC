@@ -6,56 +6,51 @@ using UnityEngine.Assertions;
 
 public class WindowsHandler : MonoBehaviour
 {
+	[SerializeField] private MainMenuWindow _mainMenuWindow;
 	[SerializeField] private PaymentWindow _paymentWindow;
-	// [SerializeField] private Window _testsListWindow;
-	// [SerializeField] private TestMenu _testAdzies;
-	// [SerializeField] private ResultMenu _resultAdziesMenu;
+	[SerializeField] private Window _infoWindow;
 
 	private void Awake()
 	{
 		Assert.IsNotNull(_paymentWindow);
-		// Assert.IsNotNull(_testsListWindow);
-		// Assert.IsNotNull(_testAdzies);
-		// Assert.IsNotNull(_resultAdziesMenu);
+		Assert.IsNotNull(_mainMenuWindow);
+		Assert.IsNotNull(_infoWindow);
 	}
 
 	private void OnEnable()
 	{
-		// _testsListWindow.NextWindowButtonClicked += AdziesButtonClick;
-		// _testAdzies.ShowResultsButtonClicked += AdziesResultsButtonClick;
-		// _resultAdziesMenu.NextWindowButtonClicked += ToMainMenu;
+		_mainMenuWindow.PaymentButtonClicked += OnPaymentButtonClick;
+		_mainMenuWindow.MapButtonClicked += OnMapButtonClick;
+		_mainMenuWindow.InfoButtonClicked += OnInfoButtonClick;
 	}
 
 	private void OnDisable()
 	{
-		// _testsListWindow.NextWindowButtonClicked -= AdziesButtonClick;
-		// _testAdzies.ShowResultsButtonClicked -= AdziesResultsButtonClick;
-		// _resultAdziesMenu.NextWindowButtonClicked -= ToMainMenu;
+		_mainMenuWindow.PaymentButtonClicked -= OnPaymentButtonClick;
+		_mainMenuWindow.MapButtonClicked -= OnMapButtonClick;
+		_mainMenuWindow.InfoButtonClicked -= OnInfoButtonClick;
 	}
 
-	private void SignInButtonClick()
+	private void CloseAllWindows()
 	{
-		// _testsListWindow.Open();
+		_paymentWindow.Close();
+		_infoWindow.Close();
 	}
 
-	private void AdziesButtonClick()
+	private void OnPaymentButtonClick()
 	{
-		// _testsListWindow.Close();
-		// _testAdzies.Open();
+		CloseAllWindows();
+		_paymentWindow.Open();
 	}
 
-	private void AdziesResultsButtonClick()
+	private void OnMapButtonClick()
 	{
-		// _testAdzies.Close();
-		// _resultAdziesMenu.Open();
+		CloseAllWindows();
 	}
 
-	private void ToMainMenu()
+	private void OnInfoButtonClick()
 	{
-		Debug.Log($"To main menu");
-		// _testAdzies.Close();
-		// _resultAdziesMenu.Close();
-        
-		// _testsListWindow.Open();
+		CloseAllWindows();
+		_infoWindow.Open();
 	}
 }
