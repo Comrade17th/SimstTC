@@ -10,8 +10,10 @@ public class Window : MonoBehaviour
 {
     [SerializeField] protected Button _nextWindowButton;
     [SerializeField] protected Button _closeButton;
+    [SerializeField] protected Button _mainMenuButton;
     
-    public event Action NextWindowButtonClicked; 
+    public event Action NextWindowButtonClicked;
+    public event Action MainMenuwButtonClicked;
     
     private void Awake()
     {
@@ -21,6 +23,9 @@ public class Window : MonoBehaviour
 
     protected virtual void OnEnable()
     {
+        if (_mainMenuButton != null)
+            _mainMenuButton.onClick.AddListener(OnMainMenuButtonClick);
+        
         if (_nextWindowButton != null)
             _nextWindowButton.onClick.AddListener(OnNextWindowButtonClick);
         
@@ -30,8 +35,14 @@ public class Window : MonoBehaviour
 
     protected virtual void OnDisable()
     {
-        if (_nextWindowButton) _nextWindowButton.onClick.RemoveListener(OnNextWindowButtonClick);
-        if (_closeButton) _closeButton.onClick.RemoveListener(Close);
+        if (_mainMenuButton != null)
+            _mainMenuButton.onClick.AddListener(OnMainMenuButtonClick);
+        
+        if (_nextWindowButton != null)
+            _nextWindowButton.onClick.RemoveListener(OnNextWindowButtonClick);
+        
+        if (_closeButton != null) 
+            _closeButton.onClick.RemoveListener(Close);
     }
 
     public virtual void Close()
@@ -47,5 +58,10 @@ public class Window : MonoBehaviour
     protected virtual void OnNextWindowButtonClick()
     {
         NextWindowButtonClicked?.Invoke();
+    }
+
+    protected virtual void OnMainMenuButtonClick()
+    {
+        MainMenuwButtonClicked?.Invoke();
     }
 }
