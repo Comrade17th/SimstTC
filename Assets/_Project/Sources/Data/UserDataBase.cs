@@ -1,17 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine; 
+using TMPro;
 
 public class UserDataBase : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private User[] users;
+    [SerializeField] private TextMeshProUGUI _login;
+
+    private void Awake()
     {
-        
+        throw new NotImplementedException();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void CheckSignIn()
     {
         
     }
