@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine; 
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
 public class UserDataBase : MonoBehaviour
 {
-    [SerializeField] private User[] users;
+    [SerializeField] private List<User> users;
     
     [SerializeField] private TextMeshProUGUI _login;
     [SerializeField] private TMP_InputField _password;
@@ -23,6 +24,12 @@ public class UserDataBase : MonoBehaviour
     [SerializeField] private Window _signInWindow;
     [SerializeField] private Window _registerWindow;
     
+    [SerializeField] private TMP_InputField _regLogin;
+    [SerializeField] private TMP_InputField _regPassword;
+    [SerializeField] private TMP_InputField _regName;
+    [SerializeField] private TMP_InputField _regForame;
+    
+    
 
     private void Awake()
     {
@@ -31,6 +38,11 @@ public class UserDataBase : MonoBehaviour
         Assert.IsNotNull(_hatterLabel);
         Assert.IsNotNull(_mainMenuWindow);
         Assert.IsNotNull(_signInWindow);
+        
+        Assert.IsNotNull(_regLogin);
+        Assert.IsNotNull(_regPassword);
+        Assert.IsNotNull(_regName);
+        Assert.IsNotNull(_regForame);
     }
 
     public void CheckSignIn()
@@ -54,6 +66,20 @@ public class UserDataBase : MonoBehaviour
         _hatter.SetActive(true);
         _mainMenuWindow.Open();
         _signInWindow.Close();
+    }
+
+    public void Register()
+    {
+        User user = new User(
+            _regLogin.text,
+            _regPassword.text,
+            _regName.text,
+            _regForame.text
+            );
+        
+        users.Add(user);
+        AuthorizedUser = user;
+        Authorize();
     }
 
     private bool IsCorrectUser()
